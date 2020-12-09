@@ -1,0 +1,475 @@
+2.1. ADT (Abstract Data Type)
+In a Queue data structure, we maintain two pointers, front and rear. The front points the first item of queue and rear points to last item.
+enQueue() This operation adds a new node after rear and moves rear to the next node.
+deQueue() This operation removes the front node and moves front to the next node.
+In a linked queue, each node of the queue consists of two parts i.e. data part and the link part. Each element of the queue points to its immediate next element in the memory.
+In the linked queue, there are two pointers maintained in the memory i.e. front pointer and rear pointer. The front pointer contains the address of the starting element of the queue while the rear pointer contains the address of the last element of the queue.
+Insertion and deletions are performed at rear and front end respectively. If front and rear both are NULL, it indicates that the queue is empty.
+The linked representation of queue is shown in the following figure.
+
+
+
+
+
+2.2. Data Structure
+The  queue is implemented in such a way that it uses the storage in\
+an effective way even in the worst cases. We have implemented a
+Linked Queue .Also we have used Dynamic memory allocation which 
+uses the memory allocttion wisely .Using the Linked Queue we also 
+have the made the data structure code light and easy to smell .
+2.3. Problem Solution Approach
+VOID ENQUEUE(INT DATA)
+{
+	NEWNODE = (STRUCT NODE*) MALLOC(SIZEOF(STRUCT NODE));
+	NEWNODE -> DATA = DATA;
+	NEWNODE -> NEXT = NULL;
+
+	IF(REAR != NULL)
+	THEN
+		REAR -> NEXT = NEWNODE;
+		REAR = NEWNODE;
+	END IF
+	ELSE
+		FRONT = REAR = NEWNODE;
+}
+
+INT DEQUEUE()
+{
+	INT DATA;
+	DATA = FRONT -> DATA;
+	TEMP = FRONT;
+	FRONT = FRONT -> NEXT;
+	FREE(TEMP);
+
+	IF(FRONT == NULL)
+	THEN
+		REAR = NULL;
+	END IF
+	RETURN DATA;
+}
+
+INT EMPTY()
+{
+	IF(FRONT == NULL)
+	THEN
+		RETURN 1;
+	END IF
+	ELSE
+		RETURN 0;
+}
+
+VOID DISPLAY()
+{
+	IF(EMPTY())
+	THEN
+		DISPLAY"\NEMPTY QUEUE\N";
+	END IF
+	ELSE
+	{
+		TEMP = FRONT;
+		DISPLAY"\NQUEUE ELEMENTS : ";
+
+		WHILE(TEMP != NULL)
+		{
+			DISPLAY "%D ",TEMP -> DATA;
+			TEMP = TEMP -> NEXT;
+		}
+	}
+}
+
+
+VOID REVERSE(STRUCT NODE *REV)
+{
+	IF(!REV)
+	THEN
+		RETURN;
+	END IF
+	REVERSE(REV->NEXT);
+	DISPLAY("%D ",REV->DATA);
+
+}
+
+
+VOID INSERTATCORRECTPOSITION(INT TEMP)
+{
+	IF(FRONT==NULL || REAR->DATA < TEMP)
+	THEN
+		ENQUEUE(TEMP);
+		RETURN;
+	END IF
+	INT ELEMENT = DEQUEUE();
+	INSERTATCORRECTPOSITION(TEMP);
+	ENQUEUE(ELEMENT);
+}
+
+VOID SORT()
+{
+	IF(!FRONT)
+	THEN
+		RETURN;
+	END IF
+	INT TEMP = DEQUEUE();
+	SORT();
+	INSERTATCORRECTPOSITION(TEMP);
+}
+
+VOID INTERLEAVEQUEUE()
+{
+
+	INT N=0,I,J;
+    FOR(TEMP = FRONT;TEMP!=NULL;TEMP = TEMP->NEXT,N++);
+    INT HALFSIZE = N / 2;
+    INT STACK[HALFSIZE];
+
+    FOR (I = 0; I < HALFSIZE; I++)
+	{
+        STACK[I] = FRONT->DATA;
+        J=DEQUEUE();
+
+    }
+
+    FOR(I=(HALFSIZE-1);I>=0;I--)
+	{
+        ENQUEUE(STACK[I]);
+        STACK[I] = 0;
+
+    }
+
+    FOR (I = 0; I < HALFSIZE; I++)
+	{
+        ENQUEUE(FRONT->DATA);
+        J=DEQUEUE();
+
+    }
+
+    FOR (I = 0; I < HALFSIZE; I++)
+	{
+        STACK[I]=FRONT->DATA;
+        J=DEQUEUE();
+
+    }
+
+   FOR(I=(HALFSIZE-1);I>=0;I--)
+	{
+		ENQUEUE(STACK[I]);
+        ENQUEUE(FRONT->DATA);
+        J=DEQUEUE();
+    }
+
+}
+
+2.4. Time and Space Complexity
+Present the worst case time and space complexity of the solution.
+
+void create(){ 
+//* TimeComplexity=O(1) & SpaceComplexity=O(1)
+}
+void enqueue(int data){
+ //* TimeComplexity= O(1) & SpaceComplexity=O(1)
+}
+int dequeue(){ 
+//* TimeComplexity= O(1) & SpaceComplexity=O(1)
+}
+int empty(){ 
+//* TimeComplexity= O(1) & SpaceComplexity=O(1)
+}
+void display(){
+ //* TimeComplexity= O(n) & SpaceComplexity=O(1)
+}
+void reverse(struct node *rev){
+ //* TimeComplexity= O(n) & SpaceComplexity=O(1)}
+void insertAtCorrectPosition(int temp) {
+//* TimeComplexity= O(k) & SpaceComplexity=O(1) where k is no of times if condition fails
+}
+void sort(){
+ //* TimeComplexity= O(1) & SpaceComplexity=O(1)
+}
+void interLeaveQueue(){
+ //* TimeComplexity= O(n) & SpaceComplexity=O(n)
+}
+int main(){
+ //* TimeComplexity= O(1) & SpaceComplexity=O(1)
+}
+
+
+
+
+Section - 3
+Source Code:
+The source code to capture the following points:
+1.Each function to capture comments on what
+2.Each important steps to capture comments on what and why
+3.Follow indention
+4.Keep the code readable and easy to smell
+
+
+#include<stdio.h>
+#include<stdlib.h>
+
+/* Structure with a node and a pointer */
+
+struct node
+{
+	int data;
+	struct node *next;
+} *rear,*front,*temp,*newNode;
+
+/* Initialising front and rear in empty list */
+
+void create()
+{
+		front = rear = NULL;
+}
+
+/* Function to insert elements in the queue */
+
+void enqueue(int data)
+{
+	newNode = (struct node*) malloc(sizeof(struct node));
+	newNode -> data = data;
+	newNode -> next = NULL;
+	
+	if(rear != NULL)
+	{
+		rear -> next = newNode;
+		rear = newNode; 						 
+// Make the new node as REAR
+	}
+	else
+		front = rear = newNode; 				 
+// In a empty queue, the inserted element becomes FRONT and REAR
+}
+
+/* Function to dequeue elements in a queue */
+
+int dequeue()
+{
+	int data;
+	data = front -> data;
+	temp = front;
+   							// Copy FRONT to a temporary node
+	front = front -> next;
+   					// Move FRONT to the next node
+	free(temp); 						// Delete the temporary node
+	if(front == NULL)
+	rear = NULL;
+	
+	return data;
+}
+
+/* Function to check if the queue is empty */
+
+int empty()
+{
+	if(front == NULL)
+	{
+		return 1;
+	}
+	else
+		return 0;
+}
+
+/* Function to display elements */
+
+void display()
+{
+	if(empty())
+		printf("\nEMPTY QUEUE\n");
+	else
+	{
+		temp = front;
+		printf("\nQUEUE ELEMENTS : ");
+		
+		while(temp != NULL)
+		{
+			printf("%d ",temp -> data);
+			temp = temp -> next;
+		}
+	}
+}
+
+/* Function to reverse elements */
+void reverse(struct node *rev)
+{
+	if(!rev)
+	return;
+	reverse(rev->next);
+	printf("%d ",rev->data);	
+}
+
+/* Function to insert elements at correct position after sorting*/
+void insertAtCorrectPosition(int temp)
+{
+	if(front==NULL || rear->data < temp)
+	{
+		enqueue(temp);
+		return;
+	}
+	int element = dequeue();
+	insertAtCorrectPosition(temp);
+	enqueue(element);
+}
+/* Function to sort elements in assending */
+
+
+void sort()
+{
+	if(!front)
+		return;
+	int temp = dequeue();
+	sort();
+	insertAtCorrectPosition(temp);
+}
+
+/* Function to interleave elements */
+
+
+void interLeaveQueue() 
+{ 
+
+	int n=0,i,j; 
+    for(temp = front;temp!=NULL;temp = temp->next,n++);
+    int halfSize = n / 2; 
+    int stack[halfSize];
+
+    for (i = 0; i < halfSize; i++) 
+	{ 
+        stack[i] = front->data; 
+        j=dequeue(); 
+    
+    } 
+
+    for(i=(halfSize-1);i>=0;i--)
+	{ 
+        enqueue(stack[i]); 
+        stack[i] = 0; 
+  
+    } 
+
+    for (i = 0; i < halfSize; i++) 
+	{ 
+        enqueue(front->data); 
+        j=dequeue(); 
+ 
+    } 
+
+    for (i = 0; i < halfSize; i++) 
+	{ 
+        stack[i]=front->data; 
+        j=dequeue();
+  
+    } 
+
+   for(i=(halfSize-1);i>=0;i--)
+	{ 
+		enqueue(stack[i]);
+        enqueue(front->data); 
+        j=dequeue();
+    } 
+
+} 
+int main()
+{
+	int num,choice;
+	printf("\n*************************************\n *\t DSA MINI PROJECT \t*\n*************************************\n");
+	while(1)
+	{
+		printf("\n\tQUEUE OPERATIONS\n\n\t1.ENQUEUE\n\t2.DEQUEUE\n\t3.DISPLAY");
+		printf("\n\t4.REVERSE THE QUEUE\n\t5.SORT THE ELEMENTS\n\t6.INTERLEAVE \n\n\t*****CHOICE*****\n\t");
+		scanf("%d",&choice);
+		 if(!(choice>=1 && choice<=6))
+
+        {
+
+           printf("%d is wrong input ",choice);
+           printf("\n This C program will exit in 10 seconds.\n");        
+			int c, d;
+  				 for (c = 1; c <= 32767; c++)
+     			  for (d = 1; d <= 32767; d++)
+     				  {}
+           exit(0);
+          }
+		switch (choice)
+		{
+			case 1:
+				printf("\nEnter item : ");
+				
+			 while(scanf("%d", &num)==0) //if scanf failed to scan an integer
+				{
+    				printf("Invalid input. Try again\n");
+    				int c;
+    					while((c=getchar())!='\n' && c!=EOF); //clear the stdin
+				}
+
+				enqueue(num);
+				break;
+			
+			case 2:
+				if(!(empty()))
+				printf("\nDequeued element : %d",dequeue());
+				break;
+			
+			case 3:
+				display();
+				break;
+			
+			case 4:
+				reverse(front);break;
+			case 5:
+				sort();
+				display();
+				break;
+			case 6:
+				interLeaveQueue();display();break;
+			default: exit(0);
+		}
+	}
+return 0; }
+
+
+
+
+Section - 4
+I/O:
+Capture the snap of Input & Output by covering at least 5 test cases.
+4.1. Test Case 1
+         
+
+              
+
+4.2. Test Case 2
+
+
+
+
+4.3. Test Case 3
+   
+
+
+
+
+
+
+
+
+4.4. Test Case 4
+  
+
+
+
+
+
+
+4.5. Test Case 5
+
+   
+
+
+
+
+
+
+
+4.6. Test Case 6
+  
+
